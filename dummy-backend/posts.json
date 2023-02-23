@@ -1,0 +1,9 @@
+{
+  "posts": [
+    {
+      "body": "This post is hopefully very awesome to you!",
+      "author": "Brian Burt",
+      "id": "post-1"
+    }
+  ]
+}
