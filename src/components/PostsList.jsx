@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Post from "./Post";
 import NewPost from "./NewPost";
@@ -6,31 +6,49 @@ import Modal from "./Modal";
 import classes from "./posts-list.module.css";
 
 const PostsList = ({ modalVisible, onPostDone }) => {
-  const [enteredBody, setEnteredBody] = useState("");
-  const [enteredAuthor, setEnteredAuthor] = useState("");
+  const [posts, setPosts] = useState([]);
 
-  const bodyChangeHandler = (evt) => {
-    setEnteredBody(evt.target.value);
-  };
+  useEffect(() => {
+    fetch("http://localhost:8080/posts")
+      .then((response) => response.json())
+      .then((data) => setPosts(JSON.parse(data.posts)));
+  }, []);
 
-  const authorChangeHandler = (evt) => {
-    setEnteredAuthor(evt.target.value);
+  const addPostHandler = (postData) => {
+    fetch("http://localhost:8080/posts", {
+      method: "POST",
+      body: JSON.stringify(postData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    setPosts((existingPosts) => [postData, ...existingPosts]);
   };
 
   return (
     <>
       {modalVisible && (
         <Modal onClose={onPostDone}>
-          <NewPost
-            onBodyChange={bodyChangeHandler}
-            onAuthorChange={authorChangeHandler}
-          />
+          <NewPost onCancel={onPostDone} onAddPost={addPostHandler} />
         </Modal>
       )}
-      <ul className={classes.posts}>
-        <Post author={enteredAuthor} text={enteredBody} />
-        <Post author="Boogie Brown" text="This is the best!" />
-      </ul>
+      {posts.length > 0 ? (
+        <ul className={classes.posts}>
+          {posts.map((post) => (
+            <Post key={post.body} author={post.author} body={post.body} />
+          ))}
+        </ul>
+      ) : (
+        <div
+          style={{
+            textAlign: "center",
+            color: "white",
+          }}
+        >
+          <h2>No posts found</h2>
+          <p>Start adding some!</p>
+        </div>
+      )}
     </>
   );
 };

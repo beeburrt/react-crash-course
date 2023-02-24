@@ -1,9 +1,1 @@
-{
-  "posts": [
-    {
-      "body": "This post is hopefully very awesome to you!",
-      "author": "Brian Burt",
-      "id": "post-1"
-    }
-  ]
-}
+{"posts":[{"body":"Hi mom!","author":"some guy","id":"0.4354380219160714"},{"body":"This post is hopefully very awesome to you!","author":"Brian Burt","id":"post-1"}]}

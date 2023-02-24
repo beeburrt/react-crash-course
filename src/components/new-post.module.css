@@ -48,5 +48,6 @@
 }
 
 .actions button[type='button']:hover {
-  color: #d1bee6;
+  background-color: #c4a9e4;
+  color: #23014a;
 }
