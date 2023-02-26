@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 
 import Post from "./Post";
-import NewPost from "../routes/NewPost";
-import Modal from "./Modal";
 import classes from "./posts-list.module.css";
 
-const PostsList = ({ modalVisible, onPostDone }) => {
+const PostsList = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,11 +32,6 @@ const PostsList = ({ modalVisible, onPostDone }) => {
 
   return (
     <>
-      {modalVisible && (
-        <Modal onClose={onPostDone}>
-          <NewPost onCancel={onPostDone} onAddPost={addPostHandler} />
-        </Modal>
-      )}
       {!isLoading && posts.length > 0 && (
         <ul className={classes.posts}>
           {posts.map((post) => (
