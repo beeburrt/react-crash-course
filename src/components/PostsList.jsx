@@ -7,11 +7,18 @@ import classes from "./posts-list.module.css";
 
 const PostsList = ({ modalVisible, onPostDone }) => {
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:8080/posts")
-      .then((response) => response.json())
-      .then((data) => setPosts(JSON.parse(data.posts)));
+    const fetchPosts = async () => {
+      setIsLoading(true);
+      const response = await fetch("http://localhost:8080/posts");
+      const resData = await response.json();
+      setPosts(resData.posts);
+      setIsLoading(false);
+    };
+
+    fetchPosts();
   }, []);
 
   const addPostHandler = (postData) => {
@@ -32,13 +39,14 @@ const PostsList = ({ modalVisible, onPostDone }) => {
           <NewPost onCancel={onPostDone} onAddPost={addPostHandler} />
         </Modal>
       )}
-      {posts.length > 0 ? (
+      {!isLoading && posts.length > 0 && (
         <ul className={classes.posts}>
           {posts.map((post) => (
             <Post key={post.body} author={post.author} body={post.body} />
           ))}
         </ul>
-      ) : (
+      )}
+      {!isLoading && posts.length === 0 && (
         <div
           style={{
             textAlign: "center",
@@ -47,6 +55,16 @@ const PostsList = ({ modalVisible, onPostDone }) => {
         >
           <h2>No posts found</h2>
           <p>Start adding some!</p>
+        </div>
+      )}
+      {isLoading && (
+        <div
+          style={{
+            textAlign: "center",
+            color: "white",
+          }}
+        >
+          <h2>Loading...</h2>
         </div>
       )}
     </>
