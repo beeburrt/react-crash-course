@@ -26,6 +26,7 @@
 .actions {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 0.5rem;
 }
 
@@ -34,7 +35,7 @@
   font: inherit;
   padding: 0.5rem 1.5rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   background-color: #34036c;
   color: #e5d5f7;
 }
@@ -43,11 +44,14 @@
   background-color: #23014a;
 }
 
-.actions button[type='button'] {
+.actions a {
   background-color: transparent;
+  text-decoration: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 6px;
+  color: #e5d5f7;
 }
 
-.actions button[type='button']:hover {
-  background-color: #c4a9e4;
+.actions a:hover {
   color: #23014a;
 }
